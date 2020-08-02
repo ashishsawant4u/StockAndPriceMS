@@ -3,6 +3,7 @@ package com.boot.demo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ public class StockAndPriceController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(StockAndPriceController.class);
 	
+	@LoadBalanced
 	@Bean
 	public RestTemplate template() {
 	    return new RestTemplate();
@@ -38,7 +40,7 @@ public class StockAndPriceController {
 		data.setOnlineStock(700);
 		
 		
-		String stockAndPriceUrl = "http://localhost:8024/pricingMS/getPrice";
+		String stockAndPriceUrl = "http://PRICINGMS/pricingMS/getPrice";
 		
 		ResponseEntity<PriceData> resp = restTemplate.postForEntity(stockAndPriceUrl, productCode,PriceData.class);
 		
